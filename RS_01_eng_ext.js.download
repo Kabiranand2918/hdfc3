@@ -1,0 +1,103 @@
+//---------------------------------------------------------------------
+function rtrim(argvalue) {
+   	while (true && (argvalue != null)) {
+    	if (argvalue.substring(argvalue.length - 1, argvalue.length) == " "){
+    	 	argvalue = argvalue.substring(0, argvalue.length - 1);
+      	}else{
+     		break;
+     	}
+  	}
+  	return argvalue
+}
+//----------------------------------------------------------------------
+function ltrim(argvalue) {
+  while (true && (argvalue != null) ) {
+      if (argvalue.substring(0, 1) == " "){
+       	  argvalue = argvalue.substring(1, argvalue.length);
+      }else{
+      	  break;
+      }
+  }
+  return argvalue
+}
+//---------------------------------------------------------------------
+//-------------------------------------------------------------------------------
+function isStringValid(p_str, p_validation,p_alertFlg,p_fldTitle){
+		var valdnStrArr = new Array();
+		valdnStrArr = p_validation.split(",");
+		for (l_indx=0 ;l_indx < valdnStrArr.length; l_indx++){
+				var l_val_indx = (valdnStrArr[l_indx].indexOf('=') >0)? valdnStrArr[l_indx].indexOf('=') : valdnStrArr[l_indx].length;
+				var valdnReq	=	rtrim(ltrim(valdnStrArr[l_indx].substring(0,l_val_indx)));
+				var l_value		=	rtrim(ltrim(valdnStrArr[l_indx].substring(valdnStrArr[l_indx].indexOf('=')+1,valdnStrArr[l_indx].length)));
+				var l_str = ltrim(rtrim(p_str));
+				switch(valdnReq){
+					case "required":
+						if ((l_str.length == 0)){
+							if(p_alertFlg){
+								alert( p_fldTitle +" cannot be left blank.");
+							}
+							return "required";
+						}
+						break;
+			        case "maxlen": 
+						if (eval(l_str.length) > eval(l_value)){
+							if(p_alertFlg){
+								alert( p_fldTitle +" cannot be greater than "+ l_value +" characters.");
+							}
+							return "maxlen";
+						}
+						break;
+			        case "minlen": 
+							if (eval(l_str.length) < eval(l_value)){
+							if(p_alertFlg){
+								alert( p_fldTitle +" cannot be less than " + l_value +" characters.");
+							}
+							return "minlen";
+						}
+						break;
+			        case "alphanum": 
+						if(l_str.length >0 && l_str.search("[^A-Za-z0-9]") >= 0 ){
+							if(p_alertFlg){
+								alert( p_fldTitle +" should contain Alphabets or Numbers");
+							}
+							return "alphanum";
+						}
+						break;
+			        case "alphanumhyphen": 
+						if(l_str.length >0 && l_str.search("[^A-Za-z0-9\-_]") >= 0 ){
+							if(p_alertFlg){
+								alert( p_fldTitle +" should contain Alphabets or Numbers or - or _");
+							}
+							return "alphanumhyphen";
+						}
+						break;
+			        case "numeric": 
+						if(l_str.length >0 && l_str.search("[^0-9]") >=0 ){
+							if(p_alertFlg){
+								alert( p_fldTitle +" should contain Numbers");
+							}
+							return "numeric";
+						}
+						break;
+			        case "decimal": 
+						if(l_str.length >0 && l_str.search("[^0-9.]") >=0 ){
+							if(p_alertFlg){
+								alert( p_fldTitle +" should be Numeric.");
+							}
+							return "decimal";
+						}
+						break;
+			        case "alpha": 
+						if(l_str.length >0 && l_str.search("[^A-Za-z]") >=0 ){
+							if(p_alertFlg){
+								alert( p_fldTitle +" should contain Alphabets.");
+							}
+							return "alpha";
+						}
+						break;
+				}//switch(valdnReq)
+		}//for (l_indx=0 ;l_indx < valdnStrArr.length; l_indx++)
+	return null;		
+}
+//-----------------------------------------------------------------------------
+function openLink(p_link){window.open(p_link,'link',"toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=515,top=50,left=50");return false;}
